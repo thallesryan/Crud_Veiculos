@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/crud_veiculos
+    username: root
+    password: 25080802
+  jpa:
+    hibernate:
+      ddl-auto: update
+
