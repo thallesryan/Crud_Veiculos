@@ -1,5 +1,6 @@
 package io.github.thallesryan.service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,10 @@ public class VeiculoService {
 	public void delete(Integer id) {
 		repository.deleteById(id);
 	}
+	
+	public List<VeiculoResponseDTO> findAll(){
+		return repository.findAll().stream().map(this::toDTO).toList();
+	}
 
 	private Veiculo toEntity(VeiculoRequestDTO veiculoDTO) {
 		Veiculo veiculo = new Veiculo();
@@ -74,6 +79,7 @@ public class VeiculoService {
 
 		veiculoResponse.setId(veiculo.getId());
 		veiculoResponse.setPlaca(veiculo.getPlaca());
+		veiculoResponse.setChassi(veiculo.getChassi());
 		veiculoResponse.setRenavam(veiculo.getRenavam());
 		veiculoResponse.setModelo(veiculo.getModelo());
 		veiculoResponse.setMarca(veiculo.getMarca());

@@ -2,6 +2,8 @@ package io.github.thallesryan.controller;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,4 +54,8 @@ public class VeiculoController{
     	service.delete(id);
     }
 
+    @GetMapping
+    public List<VeiculoResponseDTO> findAll(){
+    	return service.findAll();	
+    }
 }
