@@ -76,7 +76,7 @@ public class PdfGeneratorService {
 		table.addCell(cell);
 		
 		  cell.setHorizontalAlignment(HorizontalAlignment.CENTER);
-	       cell.setVerticalAlignment(VerticalAlignment.TOP);
+	      cell.setVerticalAlignment(VerticalAlignment.TOP);
 		
 		return table;
 	}
