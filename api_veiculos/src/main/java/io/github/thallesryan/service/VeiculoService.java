@@ -62,7 +62,7 @@ public class VeiculoService {
 		return repository.findAll().stream().map(this::toDTO).toList();
 	}
 
-	private Veiculo toEntity(VeiculoRequestDTO veiculoDTO) {
+	public Veiculo toEntity(VeiculoRequestDTO veiculoDTO) {
 		Veiculo veiculo = new Veiculo();
 		veiculo.setPlaca(veiculoDTO.getPlaca());
 		veiculo.setChassi(veiculoDTO.getChassi());
@@ -74,7 +74,7 @@ public class VeiculoService {
 		return veiculo;
 	}
 
-	private VeiculoResponseDTO toDTO(Veiculo veiculo) {
+	public VeiculoResponseDTO toDTO(Veiculo veiculo) {
 		VeiculoResponseDTO veiculoResponse = new VeiculoResponseDTO();
 
 		veiculoResponse.setId(veiculo.getId());

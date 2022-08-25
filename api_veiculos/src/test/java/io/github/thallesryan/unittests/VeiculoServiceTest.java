@@ -2,7 +2,6 @@ package io.github.thallesryan.unittests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -14,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import io.github.thallesryan.domain.Veiculo;
+import io.github.thallesryan.dto.VeiculoResponseDTO;
 import io.github.thallesryan.repository.VeiculoRepository;
 import io.github.thallesryan.service.VeiculoService;
 
@@ -49,10 +49,7 @@ class VeiculoServiceTest {
 		return mockVeiculo;
 	}
 
-	@Test
-	void testCreate() {
-		fail("Not yet implemented");
-	}
+	
 
 	@Test
 	void testFindById() {
@@ -72,10 +69,6 @@ class VeiculoServiceTest {
 		assertEquals("Ano test1", entity.getAno());
 	}
 
-	@Test
-	void testUpdate() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	void testDelete() {
@@ -83,8 +76,19 @@ class VeiculoServiceTest {
 		entity.setId(1);
 		
 		when(repository.findById(1)).thenReturn(Optional.of(entity));
-		
 		service.delete(1);
+	}
+	
+	@Test
+	void testMapperToDTO() {
+		mockVeiculo = mockVeiculo(1);
+		VeiculoResponseDTO dto = service.toDTO(mockVeiculo);
+		
+		assertEquals(mockVeiculo.getPlaca(), dto.getPlaca());
+		assertEquals(mockVeiculo.getChassi(), dto.getChassi());
+		assertEquals(mockVeiculo.getRenavam(), dto.getRenavam());
+		assertEquals(mockVeiculo.getModelo(), dto.getModelo());
+		assertEquals(mockVeiculo.getAno(), dto.getAno());
 	}
 
 }
