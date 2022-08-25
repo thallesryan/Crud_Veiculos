@@ -1,5 +1,6 @@
 package io.github.thallesryan.service;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,63 +23,64 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class PdfGeneratorService {
-	
+
 	@Autowired
 	private VeiculoService veiculoService;
-	
 
-	
+	private Table table;
+
 	public void export(HttpServletResponse response, Integer id) throws DocumentException, IOException {
-		
-		 Document document = new Document(PageSize.A4);
-	        PdfWriter.getInstance(document, response.getOutputStream());
 
-	        document.open();
-	        Font fontTitle = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-	        fontTitle.setSize(18);
+		Document document = new Document(PageSize.A4);
+		PdfWriter.getInstance(document, response.getOutputStream());
 
-	        Paragraph paragraph = new Paragraph("Veiculo", fontTitle);
-	        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+		document.open();
+		Font fontTitle = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+		fontTitle.setSize(18);
 
+		Paragraph paragraph = new Paragraph("Veiculo", fontTitle);
+		paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 
+		document.add(paragraph);
 
-	        
-	        document.add(paragraph);
-    
-	        Table table = new Table(6, 2);
-	        table.setPadding(4);
-	        
-	        VeiculoResponseDTO veiculoResp = veiculoService.findById(id);
-	        
-	      
-	       table = this.addHeader(table, "Placa");
-	       table = this.addHeader(table, "Chassi");
-	       table = this.addHeader(table, "Renavam");
-	       table = this.addHeader(table, "Modelo");
-	       table = this.addHeader(table, "Marca");
-	       table = this.addHeader(table, "Ano");
-	       
-	       table = this.addHeader(table, veiculoResp.getPlaca());
-	       table = this.addHeader(table, veiculoResp.getChassi());
-	       table = this.addHeader(table, veiculoResp.getRenavam());
-	       table = this.addHeader(table, veiculoResp.getModelo());
-	       table = this.addHeader(table, veiculoResp.getMarca() + "");
-	       table = this.addHeader(table, veiculoResp.getAno());
+		table = new Table(6, 2);
+		table.setPadding(4);
+		table.setBorderWidth(2);
 
-	        
-	        document.add(table);
-	        document.close();
+		VeiculoResponseDTO veiculoResp = veiculoService.findById(id);
+
+		this.addCell("Placa",Color.white,Color.BLUE);
+		this.addCell("Chassi", Color.white,Color.BLUE);
+		this.addCell("Renavam", Color.white,Color.BLUE);
+		this.addCell("Modelo", Color.white,Color.BLUE);
+		this.addCell("Marca",Color.white,Color.BLUE);
+		this.addCell("Ano", Color.white,Color.BLUE);
+
+		this.addCell(veiculoResp.getPlaca(),Color.black, Color.WHITE);
+		this.addCell(veiculoResp.getChassi(),Color.black, Color.WHITE);
+		this.addCell(veiculoResp.getRenavam(),Color.black, Color.WHITE);
+		this.addCell(veiculoResp.getModelo(),Color.black, Color.WHITE);
+		this.addCell(veiculoResp.getMarca() + "",Color.black, Color.WHITE);
+		this.addCell(veiculoResp.getAno(),Color.black, Color.WHITE);
+
+		document.add(table);
+		document.close();
 	}
-	
-	private Table addHeader(Table table, String headerName) {
+
+	private void addCell(String headerName,Color fontColor, Color backGroundColor) {
+
+		Font font = new Font();
+		font.setColor(fontColor);
+		Cell cell = new Cell();
+		cell.add(new Paragraph(headerName, font));
+		cell.setBorderWidth(2);
 		
-		Cell cell = new Cell(headerName);
-		table.addCell(cell);
+		cell.setBackgroundColor(backGroundColor);
 		
-		  cell.setHorizontalAlignment(HorizontalAlignment.CENTER);
-	      cell.setVerticalAlignment(VerticalAlignment.TOP);
 		
-		return table;
+		cell.setHorizontalAlignment(HorizontalAlignment.CENTER);
+		cell.setVerticalAlignment(VerticalAlignment.TOP);
+		this.table.addCell(cell);
 	}
 
 }
