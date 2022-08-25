@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.thallesryan.dto.VeiculoRequestDTO;
 import io.github.thallesryan.dto.VeiculoResponseDTO;
 import io.github.thallesryan.service.VeiculoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/veiculos")
@@ -31,7 +32,7 @@ public class VeiculoController{
 	
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createVeiculo(@RequestBody VeiculoRequestDTO veiculoRequestDTO){
+    public void createVeiculo(@RequestBody @Valid VeiculoRequestDTO veiculoRequestDTO){
     	service.create(veiculoRequestDTO);
 
     }

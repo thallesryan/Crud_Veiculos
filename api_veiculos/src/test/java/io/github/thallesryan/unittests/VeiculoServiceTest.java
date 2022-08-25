@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import io.github.thallesryan.domain.Veiculo;
+import io.github.thallesryan.dto.VeiculoRequestDTO;
 import io.github.thallesryan.dto.VeiculoResponseDTO;
 import io.github.thallesryan.repository.VeiculoRepository;
 import io.github.thallesryan.service.VeiculoService;
@@ -20,6 +21,8 @@ import io.github.thallesryan.service.VeiculoService;
 class VeiculoServiceTest {
 
 	Veiculo mockVeiculo;
+	
+	VeiculoRequestDTO mockVeiculoRequest;
 	
 	@InjectMocks
 	private VeiculoService service;
@@ -47,6 +50,16 @@ class VeiculoServiceTest {
 		mockVeiculo.setModelo("Modelo test" + n);
 		mockVeiculo.setAno("Ano test" + n);
 		return mockVeiculo;
+	}
+	
+	private VeiculoRequestDTO mockVeiculoRequest(Integer n) {
+		mockVeiculoRequest = new VeiculoRequestDTO();
+		mockVeiculoRequest.setPlaca("Placa test" + n);
+		mockVeiculoRequest.setChassi("Chassi test" + n);
+		mockVeiculoRequest.setRenavam("Renavam test" + n);
+		mockVeiculoRequest.setModelo("Modelo test" + n);
+		mockVeiculoRequest.setAno("Ano test" + n);
+		return mockVeiculoRequest;
 	}
 
 	
@@ -89,6 +102,19 @@ class VeiculoServiceTest {
 		assertEquals(mockVeiculo.getRenavam(), dto.getRenavam());
 		assertEquals(mockVeiculo.getModelo(), dto.getModelo());
 		assertEquals(mockVeiculo.getAno(), dto.getAno());
+	}
+	
+	@Test
+	void testMapperToEntity() {
+		
+		mockVeiculoRequest = mockVeiculoRequest(1);
+		Veiculo entity = service.toEntity(mockVeiculoRequest);
+		
+		assertEquals(mockVeiculoRequest.getPlaca(), entity.getPlaca());
+		assertEquals(mockVeiculoRequest.getChassi(), entity.getChassi());
+		assertEquals(mockVeiculoRequest.getRenavam(), entity.getRenavam());
+		assertEquals(mockVeiculoRequest.getModelo(), entity.getModelo());
+		assertEquals(mockVeiculoRequest.getAno(), entity.getAno());
 	}
 
 }
